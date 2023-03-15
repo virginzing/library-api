@@ -1,5 +1,3 @@
-# README
-
 ## REQUIREMENTS
 ---
 
@@ -15,9 +13,9 @@
 ## Configuration
 ---
 
-- clone project
-- create database
-- run migrations
-- install gems
-- run seed to populate database
-- have fun :)
+1. clone project
+2. create database
+3. run migrations
+4. install gems
+5. run seed to populate database
+6 have fun :)
