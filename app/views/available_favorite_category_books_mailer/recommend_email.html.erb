@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hi, <%= @user.full_name %></h1>
+    <p>
+      We have availiable books, matched your favorite categories,
+    </p>
+    <% @books.each do |book| %>
+      <p><%= "id: #{book.id}, #{book.title} (by #{book.author})"  %><p>
+    <% end %>
+    <p>Thanks for joining and have a great day!</p>
+  </body>
+</html>

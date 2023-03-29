@@ -7,6 +7,7 @@
 #   Character.create(name: "Luke", movie: movies.first)
 puts 'Erasing data...'
 puts ''
+UserFavoriteCategory.destroy_all
 Book.destroy_all
 User.destroy_all
 
@@ -31,8 +32,13 @@ puts ''
     email: Faker::Internet.email,
     address: Faker::Address.street_name,
     age: rand(18..70),
-    gender: ['Male', 'Female'].sample
+    gender: User::GENDER.sample,
+    password: 'password'
   )
 end
+
+puts 'Start email jobs...'
+puts ''
+Sidekiq::Cron::Job.create(name: 'Send available favorite category books email to users - every 5min', cron: '*/1 * * * *', class: 'AvailableFavoriteCategoryBooksEmailJob')
 
 puts '...Done!'

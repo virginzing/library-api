@@ -3,8 +3,24 @@
 module Api
   module V1
     class BooksController < ApplicationController
-      def index
-        render json: Book.all
+      def rent
+        service = Users::RentBook.call(@current_user, params[:id])
+
+        if service[:success]
+          render json: { rented_books: service[:rented_books] }, status: 200
+        else
+          render json: { errors: service[:errors] }, status: 400
+        end
+      end
+
+      def return
+        service = Users::ReturnBook.call(@current_user, params[:id])
+
+        if service[:success]
+          render json: { rented_books: service[:rented_books] }, status: 200
+        else
+          render json: { errors: service[:errors] }, status: 400
+        end
       end
     end
   end

@@ -19,3 +19,17 @@
 4. Install gems
 5. Run seed to populate database
 6. Have fun :)
+
+
+# Runable command
+- run test `rspec`
+- setup database & cron jobs `rails db:setup`
+- start server `rails server`
+- access console `rails console`
+
+# TODO
+---
+- Use `gem devise` for authentication.
+- Add admin panel with `gem administrate`.
+- Add mailer specs
+- Dockerize & CI/CD for deploying

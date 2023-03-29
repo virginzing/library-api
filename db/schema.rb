@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_14_234630) do
+ActiveRecord::Schema.define(version: 2023_03_27_081408) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,8 +20,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_14_234630) do
     t.string "author"
     t.text "description"
     t.string "category"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "rent_by_id"
+    t.index ["rent_by_id"], name: "index_books_on_rent_by_id"
+  end
+
+  create_table "user_favorite_categories", force: :cascade do |t|
+    t.string "category"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["category"], name: "index_user_favorite_categories_on_category"
+    t.index ["user_id"], name: "index_user_favorite_categories_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -29,8 +41,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_14_234630) do
     t.string "address"
     t.integer "age"
     t.string "gender"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "password_digest"
+    t.text "sessions", default: [], array: true
   end
 
+  add_foreign_key "user_favorite_categories", "users"
 end

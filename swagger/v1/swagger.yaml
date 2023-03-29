@@ -1,0 +1,146 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/auth/login":
+    post:
+      summary: user login
+      tags:
+      - Authentication
+      parameters: []
+      responses:
+        '200':
+          description: user login and return X-API-KEY token
+        '401':
+          description: invalid email and/or password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: chris@hems.worth
+                password:
+                  type: string
+                  example: Thor0dinS*N
+              required:
+              - email
+              - password
+  "/api/v1/auth/logout":
+    delete:
+      summary: user logout
+      tags:
+      - Authentication
+      parameters:
+      - name: X-API-KEY
+        in: header
+        example: Bearer X-API-KEY
+        schema:
+          type: string
+      responses:
+        '200':
+          description: user logout
+        '401':
+          description: invalid token
+  "/api/v1/books/{id}/rent":
+    post:
+      summary: user rent book :id
+      tags:
+      - Books
+      parameters:
+      - name: id
+        in: path
+        example: 42
+        required: true
+        schema:
+          type: integer
+      - name: X-API-KEY
+        in: header
+        example: Bearer X-API-KEY
+        schema:
+          type: string
+      responses:
+        '200':
+          description: user rent book success and return rented books
+        '400':
+          description: fail with errors message
+  "/api/v1/books/{id}/return":
+    post:
+      summary: user return book :id
+      tags:
+      - Books
+      parameters:
+      - name: id
+        in: path
+        example: 42
+        required: true
+        schema:
+          type: integer
+      - name: X-API-KEY
+        in: header
+        example: Bearer X-API-KEY
+        schema:
+          type: string
+      responses:
+        '200':
+          description: user return book success and return rented books
+        '400':
+          description: fail with errors message
+  "/api/v1/users":
+    post:
+      summary: register user
+      tags:
+      - Authentication
+      parameters: []
+      responses:
+        '201':
+          description: user registered
+        '400':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                full_name:
+                  type: string
+                  example: Chris Hemsworth
+                email:
+                  type: string
+                  example: chris@hems.worth
+                address:
+                  type: string
+                  example: 123 Shirley Street PIMPAMA QLD 4209 AUSTRALIA
+                age:
+                  type: integer
+                  example: 39
+                gender:
+                  type: string
+                  example: Male
+                password:
+                  type: string
+                  example: Thor0dinS*N
+                favorite_categories:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                  - fiction
+              required:
+              - full_name
+              - email
+              - address
+              - age
+              - gender
+              - password
+              - favorite_categories
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: 127.0.0.1:3000

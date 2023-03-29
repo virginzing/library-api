@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "3.0.2"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.0.3"
+gem 'rails', '~> 6.1', '>= 6.1.7.3'
 
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
@@ -36,9 +36,38 @@ gem "bootsnap", require: false
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem "rack-cors"
 
+# Use dry for service patterns.
+gem 'dry-initializer', '~> 3.1', '>= 3.1.1'
+gem 'dry-monads', '~> 1.6'
+
+# Use swagger for document APIs.
+gem 'rswag-ui', '~> 2.8'
+gem 'rswag-api', '~> 2.8'
+
+# Use sidekiq for background job processing.
+gem 'sidekiq', '~> 7.0', '>= 7.0.7'
+gem 'sidekiq-cron', '~> 1.10'
+
+# Use serializers for JSON rendering.
+gem 'jsonapi-serializer', '~> 2.2'
+
+# Use cors for public api
+gem 'rack-cors', '~> 2.0', '>= 2.0.1'
+
+# Use jwt for authentication token.
+gem 'jwt', '~> 2.7'
+
+# Use bcrypt for password encryption.
+gem 'bcrypt', '~> 3.1', '>= 3.1.18'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
+
+  # Use rspec for automated testing.
+  gem 'rspec', '~> 3.12'
+  gem 'rspec-rails', '~> 6.0', '>= 6.0.1'
+  gem 'rswag-specs', '~> 2.8'
 end
 
 group :development do
