@@ -36,7 +36,9 @@ RSpec.describe 'users api', type: :request do
           "favorite_categories": ["fiction"]
         }}
 
-        run_test! 
+        run_test! do |response|
+          expect(json["data"]["type"]).to eq("user")
+       end
       end
 
       response '400', 'invalid request' do

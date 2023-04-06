@@ -11,11 +11,12 @@ RSpec.describe 'books api', type: :request do
       parameter name: 'X-API-KEY', in: :header, type: :string, example: 'Bearer X-API-KEY'
 
       response '200', 'user rent book success and return rented books' do
-        let(:id) { @availiable_book.id }
+        let(:id) { @availiable_book.id.to_s }
         let('X-API-KEY') { "Bearer #{@valid_token}" }
 
         run_test! do |response|
-          expect(json['rented_books'].present?).to eq(true)
+          expect(json["data"]["id"]).to eq(id)
+          expect(json["data"]["type"]).to eq("book")
        end
       end
 
@@ -39,11 +40,12 @@ RSpec.describe 'books api', type: :request do
       parameter name: 'X-API-KEY', in: :header, type: :string, example: 'Bearer X-API-KEY'
 
       response '200', 'user return book success and return rented books' do
-        let(:id) { @rented_book.id }
+        let(:id) { @rented_book.id.to_s }
         let('X-API-KEY') { "Bearer #{@valid_token}" }
 
         run_test! do |response|
-          expect(json.has_key?('rented_books')).to eq(true)
+          expect(json["data"]["id"]).to eq(id)
+          expect(json["data"]["type"]).to eq("book")
        end
       end
 
