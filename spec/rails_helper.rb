@@ -39,7 +39,7 @@ RSpec.configure do |config|
 
     @INVALID = 'invalid'
 
-    @valid_email = 'chris@hems.worth'
+    @valid_email = 'Chris@hems.worth'
     @valid_password = 'Thor0dinS*N'
 
     @new_user_params = {

@@ -1,11 +1,9 @@
 module Authentication
   class CurrentUser < ApplicationService
-    def initialize(token)
-      @token = token
-    end
+    param :token, type: proc(&:to_s)
 
     def call
-      decoded = Authentication::Token.jwt_decode(@token)
+      decoded = Authentication::Token.jwt_decode(token)
   
       user = User.find_by_id(decoded[:user_id])
 

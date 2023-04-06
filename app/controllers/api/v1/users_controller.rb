@@ -7,7 +7,13 @@ module Api
 
       def register
         service = Authentication::UserRegister.call(
-          params.slice(:email, :full_name, :age, :address, :gender, :password, :favorite_categories)
+          params[:email], 
+          params[:full_name], 
+          params[:age], 
+          params[:address], 
+          params[:gender], 
+          params[:password], 
+          params[:favorite_categories]
         )
 
         service.either(

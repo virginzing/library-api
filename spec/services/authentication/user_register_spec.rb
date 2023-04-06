@@ -13,7 +13,15 @@ RSpec.describe Authentication::UserRegister, type: :service do
       favorite_categories: categories 
     }
     
-    service = Authentication::UserRegister.call(user_params)
+    service = Authentication::UserRegister.call(
+      user_params[:email], 
+      user_params[:full_name],
+      user_params[:age],  
+      user_params[:address], 
+      user_params[:gender], 
+      user_params[:password],
+      user_params[:favorite_categories]
+    )
 
     expect(service.success?).to eq(true)
 
@@ -29,14 +37,15 @@ RSpec.describe Authentication::UserRegister, type: :service do
   end
 
   it 'return Failure and errors message when any params is invalid' do
-    service = Authentication::UserRegister.call({ 
-      full_name: nil,
-      email: nil,
-      address: nil,
-      age: nil,
-      gender: nil,
-      password: nil,
-      favorite_categories: nil })
+    service = Authentication::UserRegister.call(
+      nil,
+      nil,
+      nil,
+      nil,
+      nil,
+      nil,
+      nil
+    )
 
     expect(service.failure?).to eq(true)
     expect(service.failure[:errors].present?).to eq(true)
