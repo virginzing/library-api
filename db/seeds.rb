@@ -37,8 +37,14 @@ puts ''
   )
 end
 
+User.all.each do |user|
+  Book::CATEGORIES.sample(rand(1..3)).each do |category|
+    UserFavoriteCategory.create(category: category, user: user)
+  end
+end
+
 puts 'Start email jobs...'
 puts ''
-Sidekiq::Cron::Job.create(name: 'Send available favorite category books email to users - every 5min', cron: '*/1 * * * *', class: 'AvailableFavoriteCategoryBooksEmailJob')
+Sidekiq::Cron::Job.create(name: 'Send available favorite category books email to users - every 5min', cron: '*/5 * * * *', class: 'AvailableFavoriteCategoryBooksEmailJob')
 
 puts '...Done!'
