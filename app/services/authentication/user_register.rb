@@ -14,12 +14,12 @@ module Authentication
         password: @params[:password]
       )
 
-      return { success: false, errors: user.errors } unless user.save
+      return Failure(errors: user.errors) unless user.save
         
       Users::AddFavoriteCategories.call(user, @params[:favorite_categories])
       RegistrationMailer.with(user: user).welcome_email.deliver_now
 
-      { success: true, user: user }
+      Success(user: user)
     end
   end
 end

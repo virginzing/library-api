@@ -60,7 +60,7 @@ RSpec.configure do |config|
       password: @valid_password
     )
 
-    @valid_token = Authentication::Login.call(@valid_email, @valid_password)[:token]
+    @valid_token = Authentication::Login.call(@valid_email, @valid_password).value![:token]
 
     @availiable_book = Book.create(
       title: 'The Lord of the Rings',

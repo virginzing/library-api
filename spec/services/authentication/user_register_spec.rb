@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Authentication::UserRegister, type: :service do
-  it 'return success then create User and UserFavoriteCategory given datt when all params is valid' do
+  it 'return Success then create User and UserFavoriteCategory given data when all params is valid' do
     categories = Book::CATEGORIES.sample(3)
     user_params = { 
       full_name: 'Chris Hemsworth',
@@ -15,9 +15,9 @@ RSpec.describe Authentication::UserRegister, type: :service do
     
     service = Authentication::UserRegister.call(user_params)
 
-    expect(service[:success]).to eq(true)
+    expect(service.success?).to eq(true)
 
-    created_user = User.last
+    created_user = service.value![:user]
     created_user_data = created_user.as_json
 
     expect(created_user_data['full_name']).to eq(user_params[:full_name])
@@ -28,7 +28,7 @@ RSpec.describe Authentication::UserRegister, type: :service do
     expect(UserFavoriteCategory.where(user: created_user, category: categories).map(&:category)).to eq(categories)
   end
 
-  it 'return fail and errors message when any params is invalid' do
+  it 'return Failure and errors message when any params is invalid' do
     service = Authentication::UserRegister.call({ 
       full_name: nil,
       email: nil,
@@ -38,7 +38,7 @@ RSpec.describe Authentication::UserRegister, type: :service do
       password: nil,
       favorite_categories: nil })
 
-    expect(service[:success]).to eq(false)
-    expect(service[:errors].present?).to eq(true)
+    expect(service.failure?).to eq(true)
+    expect(service.failure[:errors].present?).to eq(true)
   end
 end

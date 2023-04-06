@@ -6,20 +6,20 @@ module Users
     end
 
     def call
-      rentedBooksCount = Users::RentedBooks.call(@current_user)[:count]
+      rentedBooksCount = Users::RentedBooks.call(@current_user).value![:count]
 
-      return { success: false, errors: [ErrorsMessage::RENTED_BOOK_LIMIT_EXCEED] } unless Users::RentedBooks::LIMIT > rentedBooksCount
+      return Failure(errors: [ErrorsMessage::RENTED_BOOK_LIMIT_EXCEED]) unless Users::RentedBooks::LIMIT > rentedBooksCount
 
       book = Book.find_by_id(@book_id)
 
-      return { success: false, errors: [ErrorsMessage::NOT_FOUND_BOOK] } unless book
-      return { success: false, errors: [ErrorsMessage::ALREADY_RENTED_BOOK] } if book.rent_by == @current_user
-      return { success: false, errors: [ErrorsMessage::NOT_AVAILIABLE_BOOK] } unless book.available?
+      return Failure(errors: [ErrorsMessage::NOT_FOUND_BOOK]) unless book
+      return Failure(errors: [ErrorsMessage::ALREADY_RENTED_BOOK]) if book.rent_by == @current_user
+      return Failure(errors: [ErrorsMessage::NOT_AVAILIABLE_BOOK]) unless book.available?
       
       book.update(rent_by: @current_user)
-      rented_books = Users::RentedBooks.call(@current_user)[:books]
+      rented_books = Users::RentedBooks.call(@current_user).value![:books]
 
-      { success: true, book: book, rented_books: rented_books }
+      Success(book: book, rented_books: rented_books)
     end
   end
 end

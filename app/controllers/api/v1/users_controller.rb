@@ -10,11 +10,10 @@ module Api
           params.slice(:email, :full_name, :age, :address, :gender, :password, :favorite_categories)
         )
 
-        if service[:success]
-          render json: UserSerializer.new(service[:user]), status: 201
-        else
-          render json: { errors: service[:errors] }, status: 400
-        end
+        service.either(
+          -> success { render json: UserSerializer.new(success[:user]), status: 201 }, 
+          -> failure { render json: { errors: failure[:errors] }, status: 400 }
+        )
       end
     end
   end

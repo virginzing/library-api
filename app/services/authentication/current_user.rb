@@ -9,10 +9,10 @@ module Authentication
   
       user = User.find_by_id(decoded[:user_id])
 
-      return { success: false, errors: [ErrorsMessage::TOKEN_IS_INVALID] } unless user
-      return { success: false, errors: [ErrorsMessage::TOKEN_IS_INVALID] } unless user.sessions.include?(@token)
+      return Failure(errors: [ErrorsMessage::TOKEN_IS_INVALID]) unless user
+      return Failure(errors: [ErrorsMessage::TOKEN_IS_INVALID]) unless user.sessions.include?(@token)
         
-      { success: true, user: user }
+      Success(user: user)
     end
   end
 end

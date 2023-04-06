@@ -12,12 +12,11 @@ class ApplicationController < ActionController::API
 
   def authenticate_request
     @token = authorized_token
-    current_user = Authentication::CurrentUser.call(@token)
+    get_current_user = Authentication::CurrentUser.call(@token)
 
-    if current_user[:success]
-      @current_user = current_user[:user]
-    else
-      render json: { errors: current_user[:errors] }, status: 401
-    end
+    get_current_user.either(
+      -> success { @current_user = success[:user] },
+      -> failure { render json: { errors: failure[:errors] }, status: 401 }
+    )
   end
 end

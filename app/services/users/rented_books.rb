@@ -9,7 +9,7 @@ module Users
     def call
       books = Book.where(rent_by: @current_user)
 
-      { success: true, books: books, count: books.count }
+      Success(books: books, count: books.count)
     end
   end
 end
