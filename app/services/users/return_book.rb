@@ -13,7 +13,7 @@ module Users
       book.update(rent_by: nil)
       rented_books = Users::RentedBooks.call(@current_user)[:books]
 
-      { success: true, rented_books: rented_books }
+      { success: true, book: book, rented_books: rented_books }
     end
   end
 end

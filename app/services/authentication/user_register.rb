@@ -19,7 +19,7 @@ module Authentication
       Users::AddFavoriteCategories.call(user, @params[:favorite_categories])
       RegistrationMailer.with(user: user).welcome_email.deliver_now
 
-      { success: true }
+      { success: true, user: user }
     end
   end
 end

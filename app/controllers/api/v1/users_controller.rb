@@ -11,7 +11,7 @@ module Api
         )
 
         if service[:success]
-          render status: 201
+          render json: UserSerializer.new(service[:user]), status: 201
         else
           render json: { errors: service[:errors] }, status: 400
         end

@@ -7,7 +7,7 @@ module Api
         service = Users::RentBook.call(@current_user, params[:id])
 
         if service[:success]
-          render json: { rented_books: service[:rented_books] }, status: 200
+          render json: BookSerializer.new(service[:book]), status: 200
         else
           render json: { errors: service[:errors] }, status: 400
         end
@@ -17,7 +17,7 @@ module Api
         service = Users::ReturnBook.call(@current_user, params[:id])
 
         if service[:success]
-          render json: { rented_books: service[:rented_books] }, status: 200
+          render json: BookSerializer.new(service[:book]), status: 200
         else
           render json: { errors: service[:errors] }, status: 400
         end
