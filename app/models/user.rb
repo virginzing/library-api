@@ -13,6 +13,12 @@ class User < ApplicationRecord
 
   has_secure_password
 
+  has_many :user_favorite_categories
+
+  def favorite_categories
+    user_favorite_categories.map(&:category)
+  end 
+
   private
 
   def downcase_email
